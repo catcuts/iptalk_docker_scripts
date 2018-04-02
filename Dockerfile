@@ -117,6 +117,7 @@ deb-src http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free 
         backports.functools-lru-cache>=1.4\n\
         bcrypt>=3.1.3\n\
         Beaker>=1.8.0\n\
+        cas_client==0.1.4\n\
         colorama>=0.3.9\n\
         configobj>=5.0.6\n\
         configparser>=3.5.0\n\
