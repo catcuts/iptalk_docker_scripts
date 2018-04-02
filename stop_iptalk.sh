@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-pid=`pgrep -f test.py` && \
+pid=`pgrep -f iptalk.py` && \
 if [[ $pid ]]
 then
     echo "iptalk stopping ..." && \

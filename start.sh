@@ -28,9 +28,11 @@ if [[ $MYSQL_PASSWORD ]]; then
     sed -in "s/^password\s*=\s*.*/password = $MYSQL_PASSWORD/" $setting_file
 fi
 
-echo -e "\n\t\t\t ====== IPTALK RUNNING ====== \t\t\t\n"
+DATE=$(date +%Y-%m-%d)
+echo -e "\n\t\t\t ====== IPTALK RUNNING ======\n\
+\n\t\t\t ======   $DATE   ====== \n\t\t\t"
 
 mkdir -p /var/run/sshd > /dev/null && \
 /usr/sbin/sshd -D & \
 sudo service mysql start > /home/pi/log.txt 2>&1 && \
-python /home/pi/src/test.py
+python /home/pi/src/iptalk.py
