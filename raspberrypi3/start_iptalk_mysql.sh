@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# eg.: bash start_iptalk_mysql -c iptalk_mysql -d /home/pi/iptalk/mysql -p 3306
+# eg.: bash start_iptalk_mysql.sh -c iptalk_mysql -d /home/pi/iptalk/mysql -p 3306
 
 IPTALK_MYSQL=
 MYSQL_DIR=
@@ -32,12 +32,13 @@ docker rm $IPTALK_MYSQL > /dev/null 2>&1
 echo -e "\t$IPTALK_MYSQL restarting ..."
 
 docker run --name $IPTALK_MYSQL \
--v $(pwd):/app \
+--privileged \
+-v $MYSQL_DIR:/app/mysql \
 -e MYSQL_DATABASE=admin \
 -e MYSQL_USER=pi \
 -e MYSQL_PASSWORD=raspberry \
 -e MYSQL_ROOT_PASSWORD=root \
 -p $MYSQL_PORT:3306 \
--d catcuts/alpine-mysql:latest-alpine3.6
+-d catcuts/mysql:latest-alpine3.6
 
 echo -e "\t$IPTALK_MYSQL restarted."

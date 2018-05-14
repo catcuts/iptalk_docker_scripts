@@ -74,6 +74,8 @@ docker run -it \
 -e MYSQL_PORT=$MYSQL_PORT \
 -e MYSQL_USERNAME=root \
 -e MYSQL_PASSWORD=root \
+--device /dev/mem:/dev/mem \
+--privileged \
 --link $IPTALK_MYSQL \
 --name $IPTALK_NAME $IPTALK_IMG
 

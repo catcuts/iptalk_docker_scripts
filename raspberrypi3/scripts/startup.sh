@@ -29,8 +29,10 @@ if [[ $MYSQL_PASSWORD ]]; then
 fi
 
 DATE=$(date +%Y-%m-%d)
+TIME=$(date +%H:%M:%S)
 echo -e "\n\t\t\t ====== IPTALK RUNNING ======\n\
-\n\t\t\t ======   $DATE   ====== \n\t\t\t"
+\n\t\t\t ======   $DATE   ====== \n\t\t\t\
+\n\t\t\t ======    $TIME    ====== \n\t\t\t"
 
-# mkdir -p /var/run/sshd > /dev/null && /usr/sbin/sshd -D & \
+mkdir -p /var/run/sshd > /dev/null && /usr/sbin/sshd -D & \
 python /home/pi/src/iptalk.py

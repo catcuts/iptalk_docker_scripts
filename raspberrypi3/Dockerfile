@@ -18,6 +18,7 @@ RUN \
     bash /home/pi/scripts/correct_timezone.sh && \
     bash /home/pi/scripts/install_ffmpeg.sh && \
     bash /home/pi/scripts/install_packages.sh && \
-    bash /home/pi/scripts/enable_ssh_root.sh
+    bash /home/pi/scripts/enable_ssh_root.sh && \
+    bash /home/pi/scripts/change_password.sh
 
 CMD ["bash", "/home/pi/startup.sh"]  # will be replaced if specified cmd when docker run image <cmd>

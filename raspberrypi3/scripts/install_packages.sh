@@ -17,15 +17,15 @@ echo -e "\n\t\t\t-------- install_./packages.sh started --------\n\t\t\t"
 # python get-pip.py
 
 # install dev environments
-echo -e "\tinstalling dev environments ..."
-  for dev in python-dev libmysqld-dev libffi-dev libssl-dev
+echo -e "\tinstalling non-py packages ..."
+  for dev in python-dev libmysqld-dev libffi-dev libssl-dev openssh-server
   do
   	found=`dpkg -l | grep $dev`
     if [ -z "$found" ]; then
       sudo apt-get install -y $dev 
   	fi
   done
-echo -e "\tdev environments installed"
+echo -e "\tnon-py packages installed"
 
 # install packages
 echo -e "\tinstalling packages ..."
