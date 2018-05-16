@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>UIPTALK on RaspberryPi 部署指南（Docker 方式）</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Docker 快速入门</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11775,148 +11775,90 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="IPTalk-&#37096;&#32626;&#25351;&#21335;&#65288;Docker-&#26041;&#24335;&#65289;">IPTalk &#37096;&#32626;&#25351;&#21335;&#65288;Docker &#26041;&#24335;&#65289;<a class="anchor-link" href="#IPTalk-&#37096;&#32626;&#25351;&#21335;&#65288;Docker-&#26041;&#24335;&#65289;">&#182;</a></h1><h2 id="&#30446;&#24405;">&#30446;&#24405;<a class="anchor-link" href="#&#30446;&#24405;">&#182;</a></h2><ul>
-<li><a href="#一、准备">一、准备</a></li>
-<li><a href="#一、运行 MySQL 容器">一、运行 MySQL 容器</a></li>
-<li><a href="#一、运行 IPTalk 容器">一、运行 IPTalk 容器</a></li>
-<li><a href="#一、测试">一、测试</a></li>
-<li><a href="#一、常见问题">一、常见问题</a></li>
-</ul>
-<h2 id="&#19968;&#12289;&#20934;&#22791;">&#19968;&#12289;&#20934;&#22791;<a class="anchor-link" href="#&#19968;&#12289;&#20934;&#22791;">&#182;</a></h2><p><strong>注：如果下述文件夹已存在，则指定一个可用的文件夹名，或者移除或重命名已存在的同名文件夹</strong></p>
-<ol>
-<li>新建 <code>iptalk</code> 专用文件夹：<code>mkdir -p /home/iptalk</code>  </li>
-<li>移入 <code>iptalk</code> 源码文件夹：用 <code>FileZilla</code> 或其它方式将 <code>src</code> 移入 <code>/home/iptalk</code> 下  </li>
-<li>移入 <code>iptalk</code> 部署和运行脚本：用 <code>FileZilla</code> 或其它方式将 <code>scripts</code> 移入 <code>/home/iptalk</code> 下  </li>
-<li>新建 <code>mysql</code> 数据存储文件夹：<code>mkdir -p /home/iptalk/mysql</code>  </li>
-</ol>
-<p>注：</p>
-<ul>
-<li><code>src</code> 从 <code>开发者</code> 那里获得  </li>
-<li><code>scripts</code> 从 <a href="https://github.com/catcuts/iptalk_docker_scripts">这里</a> 下载（下载下来后，解压出来一个文件夹并重命名该文件夹为 <code>scripts</code>）  </li>
-<li><code>FileZilla</code> 如果还没安装，从 <a href="https://filezilla-project.org/download.php?platform=win64">这里</a> 下载符合所在系统的安装程序</li>
-</ul>
-<h2 id="&#20108;&#12289;&#36816;&#34892;-MySQL-&#23481;&#22120;">&#20108;&#12289;&#36816;&#34892; MySQL &#23481;&#22120;<a class="anchor-link" href="#&#20108;&#12289;&#36816;&#34892;-MySQL-&#23481;&#22120;">&#182;</a></h2><h3 id="1.-&#33719;&#21462;&#38236;&#20687;">1. &#33719;&#21462;&#38236;&#20687;<a class="anchor-link" href="#1.-&#33719;&#21462;&#38236;&#20687;">&#182;</a></h3><p>先检查是否已有该镜像：<code>docker images</code><br>
-如果已经存在名为 <code>mysql</code> 的镜像，且 <code>TAG</code> 为 <code>5.7</code>——则进入第 2 步。<br>
-否则从远端仓库拉取该镜像：<code>docker pull mysql:5.7</code><br>
-拉取完毕且无错误之后，检查是否存在该镜像且 <code>TAG</code> 为 <code>5.7</code>。</p>
-<h3 id="2.-&#20174;&#38236;&#20687;&#19978;&#21019;&#24314;&#24182;&#36816;&#34892;&#23481;&#22120;">2. &#20174;&#38236;&#20687;&#19978;&#21019;&#24314;&#24182;&#36816;&#34892;&#23481;&#22120;<a class="anchor-link" href="#2.-&#20174;&#38236;&#20687;&#19978;&#21019;&#24314;&#24182;&#36816;&#34892;&#23481;&#22120;">&#182;</a></h3><p><strong>注：只有尖括号里面的需要替换成实际所需；如果自定义容器名已存在，需要根据实际情况，重新命名或者停止运行并移除同名容器</strong><br>
-<del>先检查端口是否已被使用：docker ps 查看 PORTS 一列的映射关系中，左手边（即宿主机）是否有如下端口之一：</del></p>
-<div class="highlight"><pre><span></span><span class="m">3306</span>
-</pre></div>
-<p><del>如果有，则不能继续，需要根据实际情况先释放这些端口才能继续。</del><br>
-修改 mysql 启动容器脚本：<code>nano &lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/start_iptalk_mysql.sh</code><br>
-其中如下部分需要修改，替换尖括号里面的内容为实际所需：</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/bash</span>
+<h1 id="Docker-&#24555;&#36895;&#20837;&#38376;">Docker &#24555;&#36895;&#20837;&#38376;<a class="anchor-link" href="#Docker-&#24555;&#36895;&#20837;&#38376;">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#30446;&#24405;">&#30446;&#24405;<a class="anchor-link" href="#&#30446;&#24405;">&#182;</a></h2><p><strong>一、Docker 是什么</strong></p>
+<p><strong>二、Docker 的生命周期</strong></p>
+<p><strong>三、Docker 实战</strong></p>
 
-<span class="nb">echo</span> -e <span class="s2">&quot;\tiptalk-mysql stopping ...&quot;</span>
-docker stop &lt;自定义 mysql 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-docker rm &lt;自定义 mysql 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-<span class="nb">echo</span> -e <span class="s2">&quot;\tiptalk-mysql restarting ...&quot;</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#19968;&#12289;Docker-&#26159;&#20160;&#20040;?">&#19968;&#12289;Docker &#26159;&#20160;&#20040;?<a class="anchor-link" href="#&#19968;&#12289;Docker-&#26159;&#20160;&#20040;?">&#182;</a></h2><p>Docker 是一种容器技术。</p>
+<p><strong>什么是容器？</strong><br>
+　　如果程序是一条鱼，容器就是鱼缸，往鱼缸注入水就是配置容器，往鱼缸放入鱼就是在容器内部运行程序。</p>
+<p><strong>为什么需要容器？</strong><br>
+　　程序可以在任何满足条件（无毒、软件）的地方运行，如同鱼儿能在任何满足条件（干净、氧气）的水里生存。<br>
+　　但是有一种行为叫“物种入侵”，说的就是在一个环境中，新物种的到来导致生态平衡遭到破坏。</p>
+<p>　　澳大利亚首都的一条河流中，曾被人在里面放生了一条亚洲鲤鱼。<br>
+　　因没有天敌，鲤鱼得以在此大量繁殖。<br>
+　　鲤鱼食量惊人，而澳大利亚水域物产很丰富，鲤鱼在这里就像是在天堂。<br>
+　　鲤鱼的数量太多，严重的威胁到了当地生物的生存，因此当地政府就鼓励居民大肆捕捞这些鲤鱼。</p>
+<p>　　程序也一样，如果不分割运行环境，就有可能与公共环境中的其他程序冲突。<br>
+　　这就是容器的必要性，如果我们把鲤鱼圈养起来，或者放入不会造成物种入侵的环境中，比如自家鱼缸，那就不会有生态环境问题。<br>
+　　同理，程序放入容器运行，就不会与其他容器或公共环境冲突。</p>
+<p>　　容器中运行程序的概念及其推导，都可以用鱼缸养育来理解。<br>
+　　比如不同容器之间可以相互引用，可以理解成不同鱼缸之间造了一条缸际隧道，一个鱼缸里的鱼吐出的气泡（数据）可以飘到另一个鱼缸里。</p>
+<p><strong>容器还有其它好处吗？</strong><br>
+　　极大的方便了运行环境的部署：部署一次，随处运行。<br>
+　　假如没有容器，一套程序拿到一个地方要运行，就需要部署运行环境。<br>
+　　鉴于每个运行环境都存在一定的差异，特别是 Linux 系统，不同发行版之间千差万别，在不同环境上部署常常会遇到千差万别的问题。<br>
+　　有了容器，在容器内部部署程序运行环境，然后把容器打包成归档，<br>
+　　到了其他地方，再把容器归档还原成容器，不用考虑是什么系统，只要是能运行容器的系统，就无需重复部署，直接就可以运行。<br>
+　　类比鱼缸，容器==鱼缸，鲤鱼鱼缸做好了，批量制造这款鱼缸，包装起来（归档），拿到任何地方，打开包装后都能立刻养鲤鱼。<br>
+　　不用考虑这家人家里还养了些其他什么鱼，只要放得下鱼缸就可以了。<br>
+　　（唯一不同的是，计算机世界批量复制容器归档比实体世界批量生产鱼缸包装来得快）</p>
 
-docker run --name &lt;自定义 mysql 容器名&gt; <span class="se">\</span>
--v &lt;准备 <span class="m">4</span> 中创建的用于存放 mysql 数据的文件夹&gt;:/var/lib/mysql <span class="se">\</span>
--e <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span>root <span class="se">\</span>
--p &lt;<span class="m">3306</span> 或其它可用的端口号&gt;:3306 <span class="se">\</span>
--d mysql:5.7 <span class="se">\</span>
---character-set-server<span class="o">=</span>utf8 <span class="se">\</span>
---collation-server<span class="o">=</span>utf8_unicode_ci
-</pre></div>
-<p>保存退出后，运行：<code>bash &lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/start_iptalk_mysql.sh</code><br>
-确认没有提示错误。<br>
-<em>注：该 mysql 镜像完整使用说明 <a href="https://store.docker.com/images/mysql">mysql by Docker</a></em></p>
-<h2 id="&#19977;&#12289;&#36816;&#34892;-IPTalk-&#23481;&#22120;">&#19977;&#12289;&#36816;&#34892; IPTalk &#23481;&#22120;<a class="anchor-link" href="#&#19977;&#12289;&#36816;&#34892;-IPTalk-&#23481;&#22120;">&#182;</a></h2><h3 id="1.-&#33719;&#21462;&#38236;&#20687;">1. &#33719;&#21462;&#38236;&#20687;<a class="anchor-link" href="#1.-&#33719;&#21462;&#38236;&#20687;">&#182;</a></h3><p>先检查是否已有该镜像：<code>docker images</code><br>
-如果已经存在名为 <code>meeyi/iptalk</code> 的镜像，且 <code>TAG</code> 为所需——比如 <code>v1.1</code>——则进入第 2 步。<br>
-否则从远端仓库拉取该镜像：<code>docker pull meeyi/iptalk</code><br>
-拉取完毕且无错误之后，检查是否存在该镜像且 <code>TAG</code> 为所需。<br>
-注：所需的 <code>TAG</code> 需从 <code>开发者</code> 获知。</p>
-<h3 id="2.-&#20174;&#38236;&#20687;&#19978;&#21019;&#24314;&#24182;&#36816;&#34892;&#23481;&#22120;">2. &#20174;&#38236;&#20687;&#19978;&#21019;&#24314;&#24182;&#36816;&#34892;&#23481;&#22120;<a class="anchor-link" href="#2.-&#20174;&#38236;&#20687;&#19978;&#21019;&#24314;&#24182;&#36816;&#34892;&#23481;&#22120;">&#182;</a></h3><p><strong>注：只有尖括号里面的需要替换成实际所需；如果自定义容器名已存在，需要根据实际情况，重新命名或者停止运行并移除同名容器</strong><br>
-先检查端口是否已被使用：<code>docker ps</code> 
-查看 PORTS 一列的映射关系中，左手边（即宿主机）是否有如下端口之一：</p>
-<div class="highlight"><pre><span></span><span class="m">85</span> <span class="m">86</span> <span class="m">90</span>
-<span class="m">3456</span> <span class="m">3478</span> <span class="m">3550</span>
-<span class="m">12200</span> <span class="m">12345</span> <span class="m">13980</span>
-<span class="m">34952</span> <span class="m">34955</span>
-</pre></div>
-<p>如果有，则不能继续，需要根据实际情况先释放这些端口才能继续。<br>
-修改 mysql 启动容器脚本：<code>nano &lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/start_iptalk.sh</code><br>
-其中如下部分需要修改，替换尖括号里面的内容为实际所需：</p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/bash</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#20108;&#12289;Docker-&#30340;&#29983;&#21629;&#21608;&#26399;">&#20108;&#12289;Docker &#30340;&#29983;&#21629;&#21608;&#26399;<a class="anchor-link" href="#&#20108;&#12289;Docker-&#30340;&#29983;&#21629;&#21608;&#26399;">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="http://orih6r7i8.bkt.clouddn.com/container%20and%20tank.PNG" alt=""></p>
 
-docker ps &gt; /dev/null
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -ne <span class="m">0</span> <span class="o">]</span>
-<span class="k">then</span>
-    <span class="nb">echo</span> -e <span class="s2">&quot;\tdocker service is starting ...&quot;</span>
-    service docker start
-    <span class="nb">echo</span> -e <span class="s2">&quot;\tdocker service started.&quot;</span>
-<span class="k">fi</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-<span class="nb">echo</span> -e <span class="s2">&quot;\tiptalk stopping ...&quot;</span>
-docker stop &lt;自定义 iptalk 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-docker rm &lt;自定义 iptalk 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-<span class="nb">echo</span> -e <span class="s2">&quot;\tiptalk restarting ...&quot;</span>
-
-docker run -it <span class="se">\</span>
--p &lt;<span class="m">10021</span> 或其它可用的端口号&gt;:21 <span class="se">\</span>
--p &lt;<span class="m">10022</span> 或其它可用的端口号&gt;:22 <span class="se">\</span>
--p <span class="m">85</span>:85 <span class="se">\</span>
--p <span class="m">89</span>:89 <span class="se">\</span>
--p <span class="m">90</span>:90 <span class="se">\</span>
--p <span class="m">3456</span>:3456 <span class="se">\</span>
--p <span class="m">3478</span>:3478 <span class="se">\</span>
--p <span class="m">3550</span>:3550 <span class="se">\</span>
--p <span class="m">12200</span>:12200 <span class="se">\</span>
--p <span class="m">12345</span>:12345 <span class="se">\</span>
--p <span class="m">13980</span>:13980 <span class="se">\</span>
--p <span class="m">34952</span>:34952 <span class="se">\</span>
--p <span class="m">34955</span>:34955 <span class="se">\</span>
--v &lt;准备 <span class="m">1</span> 中创建的iptalk 专用文件夹&gt;/scripts:/home/pi/start <span class="se">\</span>
--v &lt;准备 <span class="m">1</span> 中创建的iptalk 专用文件夹&gt;/src:/home/pi/src <span class="se">\</span>
--e <span class="nv">MYSQL_HOST</span><span class="o">=</span>&lt;二 中创建并运行的 mysql 容器名&gt; <span class="se">\</span>
--e <span class="nv">MYSQL_PORT</span><span class="o">=</span><span class="m">3306</span> <span class="se">\</span>
--e <span class="nv">MYSQL_USERNAME</span><span class="o">=</span>root <span class="se">\</span>
--e <span class="nv">MYSQL_PASSWORD</span><span class="o">=</span>root <span class="se">\</span>
---link &lt;二 中创建并运行的 mysql 容器名&gt; <span class="se">\</span>
---name &lt;自定义 iptalk 容器名&gt; meeyi/iptalk:&lt;iptalk 镜像的 TAG&gt;
-</pre></div>
-<p>保存退出后，运行：<code>bash &lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/start_iptalk.sh</code><br>
-确认没有提示错误。<br>
-<em>注（给初学者）：理解短选项（如 -p -v 等）代表的意思（参考 <a href="http://www.runoob.com/docker/docker-command-manual.html">Docker 命令大全</a> 或 <a href="https://yeasy.gitbooks.io/docker_practice/content/">Docker — 从入门到实践</a>）</em></p>
-<h2 id="&#22235;&#12289;&#27979;&#35797;">&#22235;&#12289;&#27979;&#35797;<a class="anchor-link" href="#&#22235;&#12289;&#27979;&#35797;">&#182;</a></h2><p>访问：<code>http://&lt;服务器ip&gt;:85</code></p>
-<h2 id="&#20116;&#12289;&#24120;&#35265;&#38382;&#39064;">&#20116;&#12289;&#24120;&#35265;&#38382;&#39064;<a class="anchor-link" href="#&#20116;&#12289;&#24120;&#35265;&#38382;&#39064;">&#182;</a></h2><h3 id="1.-&#20351;&#29992;-FileZilla-&#31227;&#21160;&#25991;&#20214;&#25110;&#25991;&#20214;&#22841;&#21040;&#36828;&#31243;&#26381;&#21153;&#22120;&#30446;&#24405;&#26102;&#65292;&#20256;&#36755;&#22833;&#36133;">1. &#20351;&#29992; <code>FileZilla</code> &#31227;&#21160;&#25991;&#20214;&#25110;&#25991;&#20214;&#22841;&#21040;&#36828;&#31243;&#26381;&#21153;&#22120;&#30446;&#24405;&#26102;&#65292;&#20256;&#36755;&#22833;&#36133;<a class="anchor-link" href="#1.-&#20351;&#29992;-FileZilla-&#31227;&#21160;&#25991;&#20214;&#25110;&#25991;&#20214;&#22841;&#21040;&#36828;&#31243;&#26381;&#21153;&#22120;&#30446;&#24405;&#26102;&#65292;&#20256;&#36755;&#22833;&#36133;">&#182;</a></h3><p>请检查目标目录的权限：<code>ls -l &lt;目标目录&gt;</code><br>
-查看我们所在的用户组的权限是否为 <code>rwx</code> 或 <code>rw-</code><br>
-比如通常会看到 <code>drwxr-xr-x</code> 并且我们（如 zwx 用户）所在的用户组为普通用户组，则对于 zwx 用户，我们没有权限写入任何东西<br>
-（去掉最前面的 <code>d</code>（这个表示 directory 即目录），每3个字符为一组，分别对应用户，组，其他用户，<code>-</code>表示无此权限）<br>
-这时就要修改这个目录的权限：<code>sudo chmod -R 777 &lt;目标目录&gt;</code> （<code>chmod</code> 修改权限，<code>-R</code> 表示递归到其子文件夹和子文件，<code>777</code> 是 <code>rwxrwxrwx</code> 的缩写）<br>
-然后重新移动所需文件或文件夹到目标目录。</p>
-<h3 id="2.-&#36816;&#34892;-start_iptalk.sh-&#26102;&#20986;&#29616;-ImportError:-No-module-named-win32api">2. &#36816;&#34892; <code>start_iptalk.sh</code> &#26102;&#20986;&#29616; <code>ImportError: No module named win32api</code><a class="anchor-link" href="#2.-&#36816;&#34892;-start_iptalk.sh-&#26102;&#20986;&#29616;-ImportError:-No-module-named-win32api">&#182;</a></h3><p>请检查 <code>&lt;准备 1 中创建的iptalk 专用文件夹&gt;/src/iptalk.py</code><br>
-注释掉如下两行：（在前面加井号表示注释掉这行）</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">version</span> <span class="kn">import</span> <span class="n">Version</span>
-<span class="c1">#from twisted.internet import iocpreactor  # ,select,poll,iocp,epoll  注释掉这行</span>
-<span class="c1">#iocpreactor.install()  # 和这行</span>
-<span class="kn">from</span> <span class="nn">core.logger</span> <span class="kn">import</span> <span class="n">log</span>
-</pre></div>
-<h3 id="3.-&#22914;&#20309;&#20572;&#27490;-iptalk">3. &#22914;&#20309;&#20572;&#27490; iptalk<a class="anchor-link" href="#3.-&#22914;&#20309;&#20572;&#27490;-iptalk">&#182;</a></h3><p>修改 <code>&lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/stop_iptalk.sh</code></p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/bash</span>
-
-<span class="nv">pid</span><span class="o">=</span><span class="sb">`</span>pgrep -f iptalk.py<span class="sb">`</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$pid</span> <span class="o">]]</span>
-<span class="k">then</span>
-    <span class="nb">echo</span> <span class="s2">&quot;iptalk stopping ...&quot;</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    sudo <span class="nb">kill</span> -9 <span class="nv">$pid</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    <span class="nb">echo</span> <span class="s2">&quot;iptalk stopped.&quot;</span>
-<span class="k">fi</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-docker stop &lt;二 中创建并运行的 iptalk 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-docker rm &lt;二 中创建并运行的 iptalk 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-</pre></div>
-<p>运行：<code>bash &lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/stop_iptalk.sh</code></p>
-<h3 id="4.-&#22914;&#20309;&#20572;&#27490;-mysql">4. &#22914;&#20309;&#20572;&#27490; mysql<a class="anchor-link" href="#4.-&#22914;&#20309;&#20572;&#27490;-mysql">&#182;</a></h3><p>修改 <code>&lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/stop_mysql.sh</code></p>
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/bash</span>
-
-<span class="nb">echo</span> -e <span class="s2">&quot;\tiptalk-mysql stopping ...&quot;</span>
-docker stop &lt;二 中创建并运行的 mysql 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-docker rm &lt;二 中创建并运行的 mysql 容器名&gt; &gt; /dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-<span class="nb">echo</span> -e <span class="s2">&quot;\tiptalk-mysql stopped.&quot;</span>
-</pre></div>
-<p>运行：<code>bash &lt;准备 1 中创建的iptalk 专用文件夹&gt;/scripts/stop_mysql.sh</code></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#19977;&#12289;Docker-&#23454;&#25112;">&#19977;&#12289;Docker &#23454;&#25112;<a class="anchor-link" href="#&#19977;&#12289;Docker-&#23454;&#25112;">&#182;</a></h2><p><strong>安装类</strong>：<br>
+1) 安装 Docker</p>
+<p><strong>查看类</strong>：<br>
+2) 查看已有镜像（已送到的鱼缸包装）：<code>docker images</code><br>
+3) 查看所有容器（所有鱼缸，包括没在养鱼的）：<code>docker ps -a</code><br>
+4) 查看正在运行的容器（所有正在养鱼的鱼缸）：<code>docker ps</code></p>
+<p><strong>运行类</strong>：（在不同的生命周期节点）<br>
+5) 从已有归档创建一个镜像（从一个包装中拿出一个鱼缸，还没开盖，没有任何鱼）：<code>docker import &lt;镜像名&gt; &lt;容器名&gt;</code><br>
+6) 从已有镜像启动一个容器，并运行一个命令（从一个包装中拿出一个鱼缸，可以选择立即开盖并放入一条鱼）：<code>docker run [-it &lt;命令&gt;] &lt;容器名&gt;</code><br>
+7) 在正在运行的容器内运行上运行一个命令（鱼缸已经生机勃勃，你又放入一条鱼）：<code>docker exec -it &lt;命令&gt; &lt;容器名&gt;</code><br>
+8) 停止正在运行的容器（鱼缸里的鱼都被收起来，鱼缸如同一潭死水，盖上鱼缸的盖子）：<code>docker stop &lt;容器名&gt;</code><br>
+9) 运行已停止的容器（打开了鱼缸的盖子，准备放鱼）:<code>docker start &lt;容器名&gt;</code><br>
+10) 在已经开启的容器上运行一个命令（在开盖的鱼缸里，放入一条鱼）：<code>docker exec -it &lt;命令&gt; &lt;容器名&gt;</code></p>
+<p><strong>参考</strong>：<br>
+1) <a href="https://yeasy.gitbooks.io/docker_practice/content/">Docker — 从入门到实践</a><br>
+2) <a href="http://www.runoob.com/docker/docker-command-manual.html">Docker 命令大全</a></p>
 
 </div>
 </div>

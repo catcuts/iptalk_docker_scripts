@@ -1,5 +1,4 @@
-
-# IPTalk 部署指南（Docker 方式）
+# UIPTALK by Docker 部署指南（Linux but not Rpi） v1
 
 ## 目录
 **一、准备**  
@@ -27,7 +26,7 @@
 否则从远端仓库拉取该镜像：`docker pull mysql:5.7`  
 拉取完毕且无错误之后，检查是否存在该镜像且 `TAG` 为 `5.7`。
 ### 2. 从镜像上创建并运行容器
-~~**注：只有尖括号里面的需要替换成实际所需；如果自定义容器名已存在，需要根据实际情况，重新命名或者停止运行并移除同名容器**~~  
+**注：只有尖括号里面的需要替换成实际所需；如果自定义容器名已存在，需要根据实际情况，重新命名或者停止运行并移除同名容器**  
 ~~先检查端口是否已被使用：docker ps 查看 PORTS 一列的映射关系中，左手边（即宿主机）是否有如下端口之一：~~
 ```shell
 3306
@@ -107,7 +106,7 @@ docker run -it \
 -v <准备 1 中创建的iptalk 专用文件夹>/scripts:/home/pi/start \
 -v <准备 1 中创建的iptalk 专用文件夹>/src:/home/pi/src \
 -e MYSQL_HOST=<二 中创建并运行的 mysql 容器名> \
--e MYSQL_PORT=<二 中创建并运行的 mysql 容器时指定的端口号> \
+-e MYSQL_PORT=3306 \
 -e MYSQL_USERNAME=root \
 -e MYSQL_PASSWORD=root \
 --link <二 中创建并运行的 mysql 容器名> \
