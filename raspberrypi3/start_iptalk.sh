@@ -8,7 +8,7 @@ IPTALK_NAME=iptalk
 IPTALK_IMG=meeyi/iptalk:v1.2.rpi3
 MYSQL_PORT=3306
 
-FTP_PORT=10021
+FTP_PORT=21
 SSH_PORT=10022
 
 while getopts "c:d:n:i:x:y:" arg  # 选项后面的冒号表示该选项需要参数
@@ -39,7 +39,7 @@ do
 done
 
 if [ -z "$IPTALK_MYSQL" -o -z "$IPTALK_DIR" ]; then
-    echo -e "必要参数：-c <自定义 mysql 容器名> -d <自定义 iptalk src存储文件夹>"
+    echo -e "必要参数：-c <自定义 mysql 容器名> -d <自定义 iptalk 文件夹>"
     exit
 fi
 

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IPTalk Management Center</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" src="/js/jquery.min.js" charset="utf-8"></script>
+    <style type="text/css">
+        .bg {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            height: 100%;
+            background-image: url(/images/loginbackground.png);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .logo{
+            position: absolute;
+            width: 484px;
+            height: 112px;
+            background-image: url(/images/LOGO.png);
+        }
+
+
+        .login {
+            position: absolute;
+            left: 35%;
+            left: calc(50% - 300px);
+            left: -moz-calc(50% - 300px);
+            left: -webkit-calc(50% - 300px);
+            top: 35%;
+            top: calc(40% - 160px);
+            top: -moz-calc(40% - 160px);
+            top: -webkit-calc(40% - 160px);
+            width: 600px;
+            height: 320px;
+            /*background-image: url(/images/1.jpg);*/
+            border-radius: 20px;
+            font-size: 1.2em;
+        }
+        .line{
+            position: absolute;
+            left: 20%;
+            top: 85%;
+            width: 60%;
+            color:#999;
+        }
+        .copyright{
+            position: absolute;
+            left:0px;
+            top:90%;
+            width: 100%;
+            text-align: center;
+            color:#999;
+        }
+
+        .input {
+            position: absolute;
+            left: 180px;
+            bottom: 40px;
+            text-align: center;
+        }
+
+        input {
+            min-height: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .elegant-aero {
+        margin-left:auto;
+        margin-right:auto;
+        max-width: 350px;
+        background: #D2E9FF;
+        padding: 40px 20px 10px 20px;
+        font: 12px Arial, Helvetica, sans-serif;
+        color: #666;
+        border-radius: 10px;
+        }
+
+        .elegant-aero label {
+        display: block;
+        margin: 0px 0px 5px;
+        }
+        .elegant-aero label>span {
+        float: left;
+        width: 15%;
+        text-align: right;
+        padding-right: 15px;
+        margin-top: 10px;
+        font-weight: bold;
+        }
+        .elegant-aero input[type="text"], .elegant-aero input[type="password"], .elegant-aero textarea, .elegant-aero select {
+        color: #888;
+        width: 70%;
+        padding: 0px 0px 0px 5px;
+        border: 1px solid #C5E2FF;
+        background: #FBFBFB;
+        outline: 0;
+        -webkit-box-shadow:inset 0px 1px 6px #ECF3F5;
+        box-shadow: inset 0px 1px 6px #ECF3F5;
+        font: 200 12px/25px Arial, Helvetica, sans-serif;
+        height: 30px;
+        line-height:15px;
+        margin: 2px 6px 16px 0px;
+        }
+        .elegant-aero .button{
+        padding: 10px 30px 10px 30px;
+        background: #66C1E4;
+        border: none;
+        color: #FFF;
+        box-shadow: 1px 1px 1px #4C6E91;
+        -webkit-box-shadow: 1px 1px 1px #4C6E91;
+        -moz-box-shadow: 1px 1px 1px #4C6E91;
+        text-shadow: 1px 1px 1px #5079A3;
+        }
+        #submit:hover{
+        background: #3EB1DD;
+        }
+        #reset:hover{
+        background: #3EB1DD;
+        }
+        .elegant-aero label>a {
+            padding-left: 250px;
+        }
+    </style>
+    <script>
+        function setCookie(c_name, value, expiredays) {
+            var exdate = new Date()
+            exdate.setDate(exdate.getDate() + expiredays)
+            document.cookie = c_name + "=" + escape(value) +
+                    ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+        }
+        function getCookie(c_name) {
+            if (document.cookie.length > 0) {
+                c_start = document.cookie.indexOf(c_name + "=")
+                if (c_start != -1) {
+                    c_start = c_start + c_name.length + 1
+                    c_end = document.cookie.indexOf(";", c_start)
+                    if (c_end == -1) c_end = document.cookie.length
+                    return unescape(document.cookie.substring(c_start, c_end))
+                }
+            }
+            return undefined
+        }
+        var url = getCookie("url")
+        var umid = getCookie("umid")
+        if (url != undefined && umid != undefined && document.referrer != location.protocol + "//" + location.hostname + ":" + location.port + url) {
+            location.href = location.protocol + "//" + location.hostname + ":" + location.port + url
+        }
+        function submit() {
+            $.getJSON("/devices/iptalk/login", {
+                username: $("#name").val(),
+                password: $("#password").val()
+            }).then(function (response) {
+                if (response.status == "success") {
+                    setCookie("url", response.result.url, 7)
+                    setCookie("umid", response.result.umid, 7)
+                    setCookie("authority", response.result.authority, 7)
+                    location.href = location.protocol + "//" + location.hostname + ":" + location.port + response.result.url
+                } else {
+                    alert(response.message)
+                }
+            })
+        }
+        $(function () {
+            $("body").eq(0).keydown(function (e) {
+                if (e.keyCode == 13) {
+                    submit()
+                }
+            })
+            $("#submit").click(submit)
+            $("#reset").click(function () {
+                $("#name").val("")
+                $("#password").val("")
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="bg"></div>
+<div class="logo"></div>
+<div class="login">
+    <!--<div class="input">-->
+        <!--<div>-->
+            <!--用户名-->
+            <!--<input id="name" name="username"/>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--密&nbsp码-->
+            <!--<input id="password" name="password" type="password"/>-->
+        <!--</div>-->
+        <!--<input id="submit" type="submit" value="登陆"/>-->
+        <!--<input id="reset" type="reset"/>-->
+    <!--</div>-->
+    <div class="elegant-aero">
+    <label>
+        <span>User:</span>
+        <input id="name" type="text" name="username" placeholder="" />
+    </label>
+        <br/>
+    <label>
+        <span>Password:</span>
+        <input id="password" type="password" name="password" placeholder="" />
+    </label>
+        <br/>
+    <label>
+        <span>&nbsp;</span>
+        <input type="submit" class="button" id="submit" value="Login" />
+        &emsp;&emsp;&emsp;
+        <input type="reset" class="button"  id="reset" value="Reset" />
+    </label>
+    <label>
+        <a href="" >Forget Password</a>
+    </label>
+    </div>
+</div>
+<hr class="line">
+<div class="copyright">
+    环宇通版权所有 2017-2021&ensp;|&ensp;闽ICP备16038990号-2
+</div>
+
+</body>
+</html>

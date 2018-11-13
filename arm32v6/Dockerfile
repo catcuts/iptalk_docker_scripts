@@ -3,7 +3,7 @@
 #     docker build -f <Dockerfile_path> -t <image_name>:<tag> .
 #############################################################################
 
-FROM arm32v6/python:2.7.14-alpine3.6
+FROM python:2.7.15-alpine3.6
 
 ARG start_script=./start.sh
 ARG TZ=Asia/Shanghai
@@ -24,9 +24,8 @@ RUN \
         sudo \
         bash \
         make \
+        curl \
         unzip \
-        tzdate \ 
-        rpi.gpio \
         python2-dev \
         libffi-dev \
         musl-dev \
@@ -35,7 +34,7 @@ RUN \
         mariadb \
         mariadb-client \
         openssh-server && \
-    apk del -y openssl-dev && apk add -y mariadb-dev \
+    apk del openssl-dev && apk add mariadb-dev && \
 
 # mkdir all will be used
     mkdir -p \
